@@ -1,23 +1,24 @@
-import requests
-import selectorlib
+import scrapper_functions as sf
 
 URL = "http://programmer100.pythonanywhere.com/tours/"
 
 
-def scrapper(url):
-    response = requests.get(url)
-    source = response.text
-
-    return source
+def store(event):
+    with open("events.txt", "a") as file:
+        return file.write(event + "\n")
 
 
-def extract(data):
-    extractor = selectorlib.Extractor.from_yaml_file("extract.yaml")
-    extracted = extractor.extract(data)["tours"]
-    return extracted
+def read():
+    with open("events.txt", "r") as file:
+        return file.read()
 
 
 if __name__ == "__main__":
-    source = scrapper(URL)
-    extracted = extract(source)
+    source = sf.scrapper(URL)
+    extracted = sf.extract(source)
+
+    if extracted != "No upcoming tours":
+        if extracted not in read():
+            store(extracted)
+
     print(extracted)
