@@ -1,4 +1,5 @@
 import scrapper_functions as sf
+from send_email import send_email
 
 URL = "http://programmer100.pythonanywhere.com/tours/"
 
@@ -20,5 +21,6 @@ if __name__ == "__main__":
     if extracted != "No upcoming tours":
         if extracted not in read():
             store(extracted)
+            send_email(extracted)
 
     print(extracted)
